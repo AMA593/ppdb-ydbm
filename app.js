@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = document.getElementById('main-header');
     const menuToggle = document.getElementById('menu-toggle');
     const mainNav = document.getElementById('main-nav');
-    const navLinks = mainNav.querySelectorAll('a');
+    const navLinks = mainNav.querySelectorAll('main nav a');
 
     // Sticky Header
     window.addEventListener('scroll', () => {
@@ -136,195 +136,39 @@ document.addEventListener('DOMContentLoaded', () => {
     // =====================================
     // 5. FORM MULTI-STEP & LOCAL STORAGE
     // =====================================
-    const form = document.getElementById('ppdb-multi-step-form');
-    const steps = document.querySelectorAll('.form-step');
-    const progressBar = document.getElementById('ppdb-progress');
-    let currentStep = 1;
-    const TOTAL_STEPS = steps.length;
-    const LOCAL_STORAGE_KEY = 'ppdb_darussalam_2026_draft';
+   const form = document.getElementById("pendaftaranForm");
+const statusText = document.getElementById("status");
 
-    // Helper: Update Progress Bar
-    const updateProgress = (step) => {
-        const percentage = (step / TOTAL_STEPS) * 100;
-        progressBar.style.width = `${percentage}%`;
-    };
 
-    // Helper: Tampilkan Step
-    const showStep = (step) => {
-        steps.forEach((s, index) => {
-            s.classList.remove('active');
-            if (index + 1 === step) {
-                s.classList.add('active');
-                currentStep = step;
-                updateProgress(step);
-            }
-        });
-    };
+// GANTI URL DI BAWAH DENGAN URL DEPLOY GOOGLE APPS SCRIPT
+const scriptURL = "https://script.google.com/macros/s/AKfycbwvvbfP69ui5bFJLXC5yeI-DuoVCyh1WnQxxZCBdCKFGru6TWG5Cz2UCS0WqryPAYHl/exec";
 
-    // Helper: Simpan ke LocalStorage
-    const saveDraft = () => {
-        const formData = new FormData(form);
-        const data = {};
-        for (const [key, value] of formData.entries()) {
-            // Khusus untuk file, simpan nama file saja (data file tidak bisa disimpan di localStorage)
-            if (value instanceof File) {
-                data[key] = value.name;
-            } else {
-                data[key] = value;
-            }
-        }
-        data.currentStep = currentStep;
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
-    };
 
-    // Helper: Muat dari LocalStorage
-    const loadDraft = () => {
-        const draft = localStorage.getItem(LOCAL_STORAGE_KEY);
-        if (draft) {
-            const data = JSON.parse(draft);
-            for (const key in data) {
-                const element = form.elements[key];
-                if (element && key !== 'currentStep') {
-                    if (element.type !== 'file') {
-                         element.value = data[key];
-                    } else {
-                        // Tampilkan pesan bahwa file harus diunggah ulang
-                        const fileInput = document.getElementById(key);
-                        const info = fileInput.nextElementSibling;
-                        if (info) info.textContent = `File terakhir: ${data[key]} (Harap unggah ulang)`;
-                    }
-                }
-            }
-            // Muat kembali ke langkah terakhir
-            showStep(data.currentStep || 1);
-        } else {
-            showStep(1); // Tampilkan langkah 1 jika tidak ada draft
-        }
-    };
+form.addEventListener("submit", e => {
+e.preventDefault();
 
-    // Validasi Step Saat Ini (Client-side)
-    const validateStep = (step) => {
-        const currentStepEl = document.querySelector(`.form-step[data-step="${step}"]`);
-        const requiredInputs = currentStepEl.querySelectorAll('[required]');
-        let isValid = true;
 
-        requiredInputs.forEach(input => {
-            // Validasi umum
-            if (!input.value) {
-                input.classList.add('is-invalid');
-                isValid = false;
-            } else {
-                input.classList.remove('is-invalid');
-            }
+const formData = new FormData(form);
 
-            // Validasi khusus untuk file (ukuran < 2MB)
-            if (input.type === 'file' && input.files.length > 0) {
-                const maxSize = parseInt(input.getAttribute('data-max-size'));
-                if (input.files[0].size > maxSize) {
-                    alert(`Ukuran file ${input.name} melebihi batas 2MB.`);
-                    input.classList.add('is-invalid');
-                    isValid = false;
-                } else {
-                    input.classList.remove('is-invalid');
-                }
-            }
 
-            // Validasi checkbox (untuk agreement di step 3)
-            if (input.type === 'checkbox' && !input.checked) {
-                isValid = false;
-            }
-        });
+fetch(scriptURL, {
+method: "POST",
+body: formData
+})
+.then(response => {
+statusText.textContent = "Pendaftaran berhasil dikirim!";
+statusText.style.color = "green";
+form.reset();
 
-        // Tampilkan pesan error jika tidak valid (minimal alert)
-        if (!isValid) {
-            alert("Harap lengkapi semua bidang yang ditandai * dan perhatikan format/ukuran file.");
-        }
-
-        return isValid;
-    };
-
-    // Event Listener untuk tombol Next
-    form.querySelectorAll('.next-step').forEach(button => {
-        button.addEventListener('click', () => {
-            if (validateStep(currentStep)) {
-                saveDraft(); // Simpan sebelum pindah
-                showStep(currentStep + 1);
-            }
-        });
-    });
-
-    // Event Listener untuk tombol Previous
-    form.querySelectorAll('.prev-step').forEach(button => {
-        button.addEventListener('click', () => {
-            saveDraft(); // Simpan sebelum pindah
-            showStep(currentStep - 1);
-        });
-    });
-
-    // Event Listener untuk semua input (untuk simpan otomatis saat ada perubahan)
-    form.addEventListener('input', () => {
-        // Debounce agar tidak terlalu sering menyimpan ke localStorage (opsional)
-        // Saat ini, kita simpan langsung pada event next/prev untuk kepastian data.
-    });
-
-    // Event Listener Submit
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        if (validateStep(currentStep)) {
-            // Simulasikan Pengiriman Data ke Backend
-            const formData = new FormData(form);
-            const data = {};
-            formData.forEach((value, key) => {
-                if (key.startsWith('file_')) {
-                    // Hanya simpan nama file untuk ringkasan
-                    data[key] = value.name; 
-                } else {
-                    data[key] = value;
-                }
-            });
-
-            // Simulasi POST Fetch ke /api/submit
-            fetch('/api/submit', {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                // Anggap sukses karena ini hanya simulasi
-                console.log('Simulasi data terkirim:', data); 
-
-                // Tampilkan Modal Konfirmasi & Ringkasan
-                const summaryDiv = document.getElementById('submission-summary');
-                summaryDiv.innerHTML = `
-                    <p><strong>Nama Santri:</strong> ${data.nama_lengkap}</p>
-                    <p><strong>Tanggal Lahir:</strong> ${data.tanggal_lahir}</p>
-                    <p><strong>Nama Ayah:</strong> ${data.nama_ayah}</p>
-                    <p><strong>No. Telp Ortu:</strong> ${data.telepon_ortu}</p>
-                    <p><strong>KK:</strong> ${data.file_kk}</p>
-                    <p><strong>Foto:</strong> ${data.file_foto}</p>
-                `;
-
-                // Tampilkan Modal
-                const modal = document.getElementById('submit-modal');
+const modal = document.getElementById('submit-modal');
                 modal.style.display = 'block';
 
-                // Bersihkan LocalStorage & Form setelah sukses submit
-                localStorage.removeItem(LOCAL_STORAGE_KEY);
-                form.reset();
-                showStep(1);
-            })
-            .catch(error => {
+})
+.catch(error => {
                 console.error('Simulasi Gagal Kirim:', error);
                 alert('Pendaftaran Gagal. Silakan coba lagi.');
             });
-        }
-    });
-    
-    // Muat draft saat halaman pertama dimuat
-    loadDraft();
+});
 
     // =====================================
     // 6. MODAL & ACCORDION
@@ -396,6 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentSlide < 0) {
                 currentSlide = 0;
             }
+            
             
             // Hitung nilai transform X
             const transformValue = -currentSlide * slideWidth;

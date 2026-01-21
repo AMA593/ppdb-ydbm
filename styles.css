@@ -10,11 +10,11 @@
    ===================================== */
 :root {
     /* Palet Warna Pastel (WCAG AA Contrast untuk teks di latar putih/krem) */
-    --color-primary: #52a856; /* Hijau Pastel Lebih Dalam */
-    --color-primary-light: #cdeccf; /* Pastel Hijau */
-    --color-secondary: #e6cfa3; /* Soft Gold Aksen */
-    --color-background: #fff6e6; /* Krem / Gading */
-    --color-text-dark: #333; /* Abu-abu gelap untuk body */
+    --color-primary: #222831; /* Hijau Pastel Lebih Dalam */
+    --color-primary-light: #393E46; /* Pastel Hijau */
+    --color-secondary: #FFD369; /* Soft Gold Aksen */
+    --color-background: #FFDD93; /* Krem / Gading */
+    --color-text-dark: #EEEEEE; /* Abu-abu gelap untuk body */
     --color-text-soft: #666; /* Abu-abu lembut */
     --color-border: #E0E0E0;
 
@@ -29,12 +29,12 @@
     --spacing-sm: 16px;
     --spacing-md: 24px;
     --spacing-lg: 48px;
-    --spacing-xl: 96px;
+    --spacing-xl: 120px;
 
     /* Shadow & Effects */
-    --shadow-subtle: 0 4px 8px rgba(0, 0, 0, 0.05);
-    --shadow-3d-1: 0 6px 12px rgba(0, 0, 0, 0.15);
-    --shadow-3d-2: 0 2px 4px rgba(0, 0, 0, 0.25);
+    --shadow-subtle: 0 6px 12px rgb(0, 0, 0);
+    --shadow-3d-1: 0 6px 12px #FFD369;
+    --shadow-3d-2: 0 6px 12px #383838;
 }
 
 /* Global Reset & Base Styles */
@@ -53,7 +53,7 @@ body {
     font-family: var(--font-sans);
     line-height: var(--line-height);
     color: var(--color-text-dark);
-    background-color: var(--color-background);
+    background-color: var(--color-primary);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
@@ -78,7 +78,7 @@ body {
 h1, h2, h3 {
     line-height: 1.2;
     margin-bottom: var(--spacing-sm);
-    color: var(--color-primary);
+    color: var(--color-text-dark);
 }
 
 .heading-serif {
@@ -88,12 +88,19 @@ h1, h2, h3 {
 
 h1 { font-size: 3.5rem; }
 h2 { font-size: 2.5rem; margin-bottom: var(--spacing-lg); }
-h3 { font-size: 1.75rem; }
+h3 {font-size: 1.75rem; }
 h4 { font-size: 1.25rem; }
+.h10 { 
+    font-size: 1.75rem;
+    color: #222831; 
+    font-family: var(--font-serif);
+    font-weight: 700;
+
+}
 
 .sub-heading {
     font-size: 1.25rem;
-    color: var(--color-text-soft);
+    color: var(--color-secondary);
     margin-bottom: var(--spacing-md);
 }
 
@@ -102,21 +109,21 @@ p {
 }
 
 a {
-    color: var(--color-primary);
+    color: var(--color-secondary);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 a:hover {
-    color: var(--color-primary-light);
+    color: var(--color-text-dark);
 }
 
 /* =====================================
    3. LAYOUT & UTILITIES
    ===================================== */
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1500px;
+    margin:auto;
     padding: 0 var(--spacing-md);
 }
 
@@ -125,9 +132,7 @@ a:hover {
 }
 
 .bg-light {
-    background-color: var(--color-primary-light);
-    /* Sedikit pola Islami Translucent sebagai sentuhan */
-    background-image: radial-gradient(var(--color-background) 5%, transparent 5%), radial-gradient(var(--color-primary) 5%, transparent 5%);
+    background-color: var(--color-primary);
     background-size: 200px 200px;
     background-position: 0 0, 100px 100px;
     opacity: 0.95; /* Sedikit transparan untuk menunjukkan warna dasar */
@@ -137,8 +142,12 @@ a:hover {
     text-align: center;
 }
 
-.full-vh {
-    min-height: 80vh; /* Minimum tinggi 80vh */
+.parallax {
+    min-height: 100vh; /* Minimum tinggi 80vh */
+    background: url(assets/PONDOK\ PUTRI2.png);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 /* =====================================
@@ -157,53 +166,53 @@ a:hover {
 }
 
 .btn-primary {
-    background-color: var(--color-primary);
-    color: var(--color-background);
-    border-color: var(--color-primary);
+    background-color: var(--color-secondary);
+    color: var(--color-primary-light);
+    border-color: var(--color-secondary);
 }
 
 .btn-primary:hover {
-    background-color: var(--color-primary-light);
-    color: var(--color-primary);
-    border-color: var(--color-primary);
+    background-color: transparent;
+    color: var(--color-secondary);
+    border-color: var(--color-secondary);
 }
 
 .btn-secondary {
     background-color: transparent;
-    color: var(--color-primary);
-    border-color: var(--color-primary);
+    color: var(--color-secondary);
+    border-color: var(--color-secondary);
 }
 
 .btn-secondary:hover {
-    background-color: var(--color-primary);
-    color: var(--color-background);
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
 }
 
 /* CTA 3D Effect */
 .btn-3d {
     position: relative;
     transform: perspective(1000px) translate3d(0, 0, 0); /* Mengaktifkan 3D */
-    box-shadow: 
-        var(--shadow-3d-1), /* Shadow Dalam (untuk efek kedalaman) */
-        0 4px var(--color-primary) /* Shadow Bawah (untuk efek terangkat) */;
+    box-shadow:  /* Shadow Dalam (untuk efek kedalaman) */
+        0 7px #997d3d /* Shadow Bawah (untuk efek terangkat) */;
     top: 0;
 }
 
 .btn-3d:hover {
     transform: perspective(1000px) translate3d(0, -4px, 10px) scale(1.05); /* Sedikit terangkat ke depan */
     box-shadow: 
-        var(--shadow-3d-1), 
-        0 8px var(--color-primary); /* Shadow bawah lebih kuat */
+        var(--shadow-subtle), 
+        0 8px var(--color-secondary); /* Shadow bawah lebih kuat */
     top: -4px;
 }
 
 .btn-3d:active {
     transform: perspective(1000px) translate3d(0, 0, 0); /* Menekan kembali */
     box-shadow: 
-        var(--shadow-subtle), 
+        var(--shadow-3d-2), 
         0 2px var(--color-primary);
     top: 0;
 }
+
 
 /* =====================================
    5. HEADER & NAVIGATION
@@ -218,9 +227,15 @@ a:hover {
 
 /* State saat di-scroll */
 #main-header.scrolled {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(53, 63, 69, 0.489);
     backdrop-filter: blur(10px);
     box-shadow: var(--shadow-subtle);
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    margin-top: 10px;
+    transition: 0.7s;
 }
 
 .header-content {
@@ -240,8 +255,6 @@ a:hover {
 
 .logo img {
     margin-right: var(--spacing-xs);
-    border-radius: 50%;
-    border: 2px solid var(--color-primary);
 }
 
 #main-nav a {
@@ -254,8 +267,9 @@ a:hover {
 }
 
 #main-nav a:hover {
-    color: var(--color-primary);
+    color: var(--color-secondary);
 }
+
 
 #main-nav a:not(.btn-cta)::after {
     content: '';
@@ -278,19 +292,19 @@ a:hover {
     border: none;
     font-size: 2rem;
     cursor: pointer;
-    color: var(--color-primary);
+    color: var(--color-secondary);
 }
 
 /* =====================================
    6. HERO SECTION
    ===================================== */
 .hero-section {
-    padding-top: 150px; /* Jarak dari header */
+    padding-top: 100px; /* Jarak dari header */
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, var(--color-background) 0%, var(--color-primary-light) 100%);
+    background-color: var(--color-borders);
 }
 
 .hero-content {
@@ -322,15 +336,17 @@ a:hover {
 }
 
 .hero-card {
-    background-color: rgba(255, 255, 255, 0.85);
+    background: #3d3d3d8d;
+    backdrop-filter: blur(10px);
     padding: var(--spacing-lg);
     border-radius: 15px;
-    box-shadow: var(--shadow-3d-1);
-    max-width: 350px;
+    box-shadow: var(--shadow-subtle);
+    max-width: 450px;
     width: 100%;
     transform-style: preserve-3d;
     will-change: transform; /* Hint for smooth animation */
-    border: 1px solid var(--color-secondary);
+    border: 1px solid var(--color-background);
+
 }
 
 .hero-card h3 {
@@ -342,31 +358,21 @@ a:hover {
 .card-item {
     margin-bottom: var(--spacing-sm);
     padding: var(--spacing-xs);
-    border-left: 3px solid var(--color-primary);
+    border-left: 3px solid var(--color-background);
 }
 
 .card-item h4 {
     font-size: 1rem;
-    color: var(--color-text-soft);
+    color: var(--color-text-dark);
     margin: 0;
 }
 
 .highlight-text {
     font-weight: 700;
-    color: var(--color-primary);
+    color: var(--color-secondary);
 }
 
-.islamic-pattern {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><g opacity="0.1"><circle cx="100" cy="100" r="50" fill="%23E6CFA3" /><path d="M100 0 L150 50 L100 100 L50 50 Z" fill="%2352a856" /><path d="M0 100 L50 150 L100 100 L50 50 Z" fill="%2352a856" /></g></svg>');
-    background-size: 100px 100px;
-    opacity: 0.1;
-}
+
 
 /* =====================================
    7. PROFIL SECTION
@@ -379,7 +385,7 @@ a:hover {
 }
 
 .card-item-profil {
-    background-color: white;
+    background-color:var(--color-primary-light);
     padding: var(--spacing-lg);
     border-radius: 10px;
     box-shadow: var(--shadow-subtle);
@@ -390,13 +396,13 @@ a:hover {
 
 .card-item-profil:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-3d-1);
 }
 
 .card-icon {
     margin-right: var(--spacing-xs);
     border-radius: 50%;
-    border: 2px solid var(--color-primary);
+    border: 2px solid var(--color-background);
 }
 
 /* =====================================
@@ -404,7 +410,7 @@ a:hover {
    ===================================== */
 .program-tabs {
     margin-top: var(--spacing-lg);
-    background-color: white;
+    background-color: var(--color-primary-light);
     border-radius: 10px;
     padding: var(--spacing-md);
     box-shadow: var(--shadow-subtle);
@@ -423,25 +429,25 @@ a:hover {
     padding: var(--spacing-xs) var(--spacing-sm);
     cursor: pointer;
     font-weight: 600;
-    color: var(--color-text-soft);
+    color: var(--color-text-dark);
     border-bottom: 3px solid transparent;
     margin: 0 var(--spacing-xs);
     transition: all 0.3s ease;
 }
 
 .tab-btn:hover {
-    color: var(--color-primary);
+    color: var(--color-secondary);
 }
 
 .tab-btn.active {
-    color: var(--color-primary);
-    border-bottom: 3px solid var(--color-primary);
+    color: var(--color-secondary);
+    border-bottom: 3px solid var(--color-secondary);
 }
 
 .tab-content {
     display: none;
     padding: var(--spacing-md) 0;
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-secondary);
     animation: fade-in 0.4s ease-out;
 }
 
@@ -476,7 +482,7 @@ a:hover {
     position: relative;
     padding: var(--spacing-md);
     margin: 0 var(--spacing-sm);
-    background-color: var(--color-background);
+    background-color: var(--color-primary);
     border-radius: 5px;
     z-index: 1;
 }
@@ -484,8 +490,8 @@ a:hover {
 .timeline-dot {
     width: 40px;
     height: 40px;
-    background-color: var(--color-primary);
-    color: white;
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -495,8 +501,8 @@ a:hover {
     top: -20px;
     left: 50%;
     transform: translateX(-50%);
-    border: 4px solid var(--color-background);
-    box-shadow: 0 0 0 2px var(--color-primary);
+    border: 4px solid var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-secondary);
 }
 
 .timeline-date {
@@ -514,10 +520,10 @@ a:hover {
    ===================================== */
 .form-container {
     max-width: 700px;
-    background-color: white;
+    background-color:  var(--color-primary-light);
     padding: var(--spacing-lg);
     border-radius: 10px;
-    box-shadow: var(--shadow-3d-1);
+    box-shadow: var(--shadow-3d-2);
 }
 
 label {
@@ -535,17 +541,26 @@ textarea,
 select {
     width: 100%;
     padding: var(--spacing-xs);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-secondary);
     border-radius: 5px;
     font-family: inherit;
     font-size: 1rem;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.checkbox-group {
+  margin-top: 6px;
+}
+
+.checkbox-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
 input:focus, textarea:focus, select:focus {
     outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px var(--color-primary-light);
+    border-color: var(--color-primary-light);
+    box-shadow: 0 0 0 3px var(--color-secondary);
 }
 
 textarea {
@@ -554,7 +569,7 @@ textarea {
 
 small {
     display: block;
-    color: var(--color-text-soft);
+    color: var(--color-secondary);
     margin-top: 4px;
     margin-bottom: var(--spacing-sm);
 }
@@ -585,6 +600,7 @@ small {
 .form-check input[type="checkbox"] {
     width: auto;
     margin-right: var(--spacing-xs);
+
     margin-top: 4px; /* Align checkbox with text */
 }
 
@@ -599,7 +615,7 @@ small {
 
 .progress-bar {
     height: 100%;
-    background-color: var(--color-primary);
+    background-color: var(--color-background);
     transition: width 0.4s ease-out;
     border-radius: 5px;
 }
@@ -607,41 +623,96 @@ small {
 /* =====================================
    11. TESTIMONIALS (CAROUSEL)
    ===================================== */
-.carousel-container {
-    overflow: hidden;
-    position: relative;
-    padding: var(--spacing-md) 0;
-}
-
-.carousel-track {
+.bodyy {
     display: flex;
-    transition: transform 0.5s ease-in-out;
+    align-items: center;
+    justify-content: center;
+    padding: 0 35px;
 }
 
-.testimonial-card {
-    flex: 0 0 33.333%; /* Tampilkan 3 card */
-    max-width: 33.333%;
-    padding: var(--spacing-md);
+.wrapper {
+    max-width: 1500px;
+    width: 100%;
+    position: relative;
+    
+}
+
+.wrapper i {
+    height: 50px;
+    width: 50px;
+    background: var(--color-secondary);
     text-align: center;
-    transform-style: preserve-3d;
-    perspective: 1000px;
-    transition: transform 0.3s ease-out, box-shadow 0.3s ease;
+    line-height: 50px;
+    border-radius: 50%;
     cursor: pointer;
+    color: var(--color-primary);
+    position: absolute;
+    top: 50%;
+    font-size: 1.25rem;
+    transform: translateY(-50%);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.23);
 }
 
-.testimonial-card:hover {
-    transform: rotateY(5deg) rotateX(2deg) scale(1.02); /* Polaroid 3D tilt on hover */
+.wrapper i:hover {
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
     box-shadow: var(--shadow-3d-1);
 }
+.wrapper i:first-child {
+    left: -22px;
+}
 
-.alumni-photo {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: var(--spacing-sm);
-    border: 5px solid white;
-    box-shadow: var(--shadow-subtle);
+.wrapper i:last-child {
+    right: -22px;
+}
+
+.wrapper .carousel {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% / 3) - 12px);
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: 0;
+}
+
+.carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel  :where(.card, ) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column
+}
+
+.carousel.no-transition {
+    scroll-behavior: auto;
+}
+
+.carousel.dragging {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+}
+
+.carousel.dragging .card {
+    cursor: grab;
+    user-select: none;
+}
+.carousel .card {
+    scroll-snap-align: start;
+    height: 442px;
+    list-style: none;
+    background: var(--color-primary);
+    border-radius: 30px;
+    display: flex;
+    cursor: pointer;
+    padding-top: 15px;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0px 30px;
 }
 
 blockquote {
@@ -655,30 +726,54 @@ blockquote {
 
 .alumni-name {
     font-weight: 600;
-    color: var(--color-primary);
+    color: var(--color-secondary);
+    font-size: large;
 }
 
-.carousel-nav {
+.card .h1 {
+    object-fit: cover;
+    font-size: smaller;
+    font-family: var(--font-serif);
+    font-weight: 700;
+}
+
+.card2 {
+    object-fit: cover;
+    font-size: medium;
+    font-family: var(--font-sans);
+    font-weight: 700;
     text-align: center;
-    margin-top: var(--spacing-md);
+    color: var(--color-text-dark);
+    
+}
+.card a2 {
+    font-weight: 500;
+    font-size: 1.56rem;
+    margin: 30px 0 5px;
+    color: #FFD369;
 }
 
-.nav-btn {
-    background: var(--color-secondary);
-    border: none;
-    color: white;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: 50%;
-    margin: 0 var(--spacing-xs);
-    cursor: pointer;
-    font-size: 1.25rem;
-    transition: background-color 0.3s ease;
+.card span {
+    color: var(--color-background);
+    font-size: medium;
+    text-align: center;
+    font-family: var(--font-sans);
+    font-weight: light;
 }
 
-.nav-btn:hover {
-    background-color: var(--color-primary);
+
+@media screen and (max-width: 900px) {
+    .wrapper .carousel {
+        grid-auto-columns: calc((100% / 2) - 9px);
+    }
 }
 
+@media screen and (max-width: 750px) {
+    .wrapper .carousel {
+        grid-auto-columns: 100%;
+    }
+}
+   
 /* =====================================
    12. FAQ & AKORDION
    ===================================== */
@@ -690,14 +785,14 @@ blockquote {
 }
 
 .accordion-group {
-    background-color: white;
+    background-color: var(--color-primary-light);
     border-radius: 10px;
     box-shadow: var(--shadow-subtle);
     overflow: hidden;
 }
 
 .accordion-item {
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-primary);
 }
 
 .accordion-item:last-child {
@@ -713,7 +808,7 @@ blockquote {
     cursor: pointer;
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--color-text-dark);
+    color: var(--color-background);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -759,17 +854,17 @@ blockquote {
 
 .dokumen-penting li {
     padding: var(--spacing-xs) 0;
-    border-bottom: 1px dashed rgba(255, 255, 255, 0.5);
+    border-bottom: 1px dashed var(--color-primary);
 }
 
 .dokumen-penting li a {
-    color: white;
+    color: var(--color-primary);
     font-weight: 500;
 }
 
 .dokumen-penting li a:hover {
     text-decoration: underline;
-    color: var(--color-primary);
+    color: var(--color-text-soft);
 }
 
 
@@ -777,7 +872,7 @@ blockquote {
    13. FOOTER
    ===================================== */
 footer {
-    background-color: var(--color-primary);
+    background-color: var(--color-primary-light);
     color: white;
     padding: var(--spacing-lg) 0 var(--spacing-md) 0;
 }
@@ -813,21 +908,26 @@ footer a:hover {
     color: var(--color-secondary);
 }
 
-.social-links a {
+
+.hover2 a {
     display: inline-block;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
     text-align: center;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.2);
-    margin-right: var(--spacing-xs);
-    color: white;
-    font-weight: 700;
-    transition: background-color 0.3s ease;
+    border-radius: 50px;
+    background-color: white;
+    color: rgb(24, 24, 24);
+    box-shadow: var(--shadow-subtle);
+    font-size: 20px;
+    margin: 5px;
 }
 
-.social-links a:hover {
+
+.hover2 a:hover {
+    width: 100px;
+    transition: 0.7s;
+    color: var(--color-primary-light);
     background-color: var(--color-secondary);
 }
 
@@ -838,6 +938,14 @@ footer a:hover {
     border: 3px solid var(--color-secondary);
 }
 
+
+.button2 {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-secondary);
+    border-radius: 50%;
+}
 /* =====================================
    14. MODAL
    ===================================== */
@@ -856,7 +964,7 @@ footer a:hover {
 }
 
 .modal-content {
-    background-color: var(--color-background);
+    background-color: var(--color-primary-light);
     margin: auto;
     padding: var(--spacing-lg);
     border-radius: 10px;
@@ -883,7 +991,7 @@ footer a:hover {
 #submission-summary {
     margin-top: var(--spacing-md);
     padding: var(--spacing-sm);
-    background-color: white;
+    background-color: var(--color-primary);
     border: 1px solid var(--color-border);
     border-radius: 5px;
     max-height: 200px;
@@ -1000,13 +1108,15 @@ footer a:hover {
         display: none;
         flex-direction: column;
         position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background-color: var(--color-background);
+        top: 120%;
+        left: 10;
+        width: 90%;
+        background-color: var(--color-primary-light);
         box-shadow: var(--shadow-subtle);
         padding: var(--spacing-sm) 0;
-        border-top: 1px solid var(--color-border);
+        border-radius: 30px;
+        align-items: center;
+        border: 5px solid var(--color-primary);
     }
 
     #main-nav.open {
